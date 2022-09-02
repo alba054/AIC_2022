@@ -1,5 +1,4 @@
 ## Deteksi Hewan Berbahaya (Compfest AIC 2022)
-<hr>
 <br>
 Mendeteksi hewan berbahaya, atau terlihat berbahaya/asing
 <br>
