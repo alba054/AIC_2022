@@ -1,8 +1,8 @@
 from flask import Flask, request
 import json
 
-from utils import get_database
-from model_dir.detect import load_image_and_detect
+from utils_api import get_database
+from detect import load_image_and_detect
 
 
 app = Flask(__name__)
@@ -34,4 +34,5 @@ def detect():
   return load_image_and_detect(base64Image)
 
 if __name__ == "__main__":
-  app.run(debug=True)
+  app.run("0.0.0.0", debug=True)
+  
