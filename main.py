@@ -1,50 +1,37 @@
-from string import ascii_lowercase
-from random import choice, randint, random
-from datetime import date
-import cv2
-import numpy as np
+from flask import Flask, request
+import json
 
-import os
-import shutil
+from utils import get_database
+from model_dir.detect import load_image_and_detect
 
-from io import BytesIO
-from PIL import Image
-import base64
 
-from detect import *
+app = Flask(__name__)
+clientDB = get_database()
 
-model_weights_dir= 'model_weights/best.pt'
-temp_save_dir= 'temp_save_dir'
+# @app.route("/")
+# def hello_world():
+#     return "<p>Hello, World!</p>"
 
-if not os.path.isdir(temp_save_dir):
-    os.mkdir(temp_save_dir)
+@app.route("/animals/<ids>")
+def getAnimalById(ids):
+  id_list = ids.split("-")
+  id_list = set(id_list)
+  animalCollection = clientDB["animals"]
+  response = {}
+  for id in id_list:  
+    animal = animalCollection.find({"id" : id})
+    animal = list(animal)[0]
+    del animal["_id"]
+    response[id] = animal
 
-save_image_format= 'jpg'
+  return response
 
-def generate_random_image_dir(base_dir='temp_save_dir', save_image_format= 'jpg'):
-    unique_image_name = f"{''.join([choice(ascii_lowercase) for _ in range(randint(2, 10))])}_{date.today()}.{save_image_format}"
+@app.route("/detect", methods=['POST'])
+def detect():
+  base64Image = json.loads(request.data)
+  base64Image = base64Image['image']
 
-    return os.path.join(base_dir, unique_image_name)
+  return load_image_and_detect(base64Image)
 
-def load_image_and_detect(base64_image):
-    read_base64= base64_image.encode()
-    read_base64= base64.decodebytes(read_base64)
-
-    img= Image.open(BytesIO(read_base64))
-    img= np.array(img)
-
-    unique_image_dir= generate_random_image_dir(temp_save_dir, save_image_format)
-
-    while os.path.isfile(unique_image_dir):
-        unique_image_dir= generate_random_image_dir(temp_save_dir, save_image_format)
-        
-    cv2.imwrite(unique_image_dir,img)
-
-    return_json= detect(unique_image_dir)
-
-    try:
-        os.remove(unique_image_dir)
-    except:
-        pass
-
-    return return_json
+if __name__ == "__main__":
+  app.run(debug=True)
