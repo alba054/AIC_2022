@@ -1,0 +1,27 @@
+id,name,is_dangerous_id,is_dangerous_label,is_dangerous_description,is_poisonous_id,is_poisonous_label,is_poisonous_description,animal_action,animal_description,webview_link,information_source
+0,Any Kind of Starfish,2,Bisa Saja Berbahaya,"Hewan ini bersifat pasif tapi bisa saja berbahaya, ada beberapa jenis yang dari hewan ini yang dapat menyakiti dan berbahaya",0,Tidak Beracun,tidak beracun,"[{
+""animal_action_id"" : 1,
+""animal_action_label"" : ""menyengat"",
+""animal_action_description"" : ""jangan sentuh atau injak hewan ini""
+}]","Bintang laut atau bintang laut adalah echinodermata berbentuk bintang yang termasuk dalam kelas Asteroidea (/ˌæstəˈrɔɪdiə/). Penggunaan umum sering menemukan nama-nama ini juga diterapkan pada ophiuroid, yang secara tepat disebut sebagai bintang rapuh atau bintang keranjang. Bintang laut juga dikenal sebagai asteroid karena berada di kelas Asteroidea. Sekitar 1.900 spesies bintang laut terdapat di dasar laut di semua samudra di dunia, dari zona tropis yang hangat hingga wilayah kutub yang dingin. Mereka ditemukan dari zona intertidal hingga kedalaman abyssal, pada 6.000 m (20.000 kaki) di bawah permukaan.",https://en.wikipedia.org/wiki/Starfish,"[webmd.com, wikipedia, wideexplained.com]"
+1,Blue Ringed Octopus,4,Bisa Sangat Berbahaya,"hewan ini pasif tapi bisa saja sangat berbahaya, dianjurkan untuk tidak terlalu dekat apalagi sampai menyentuh hewan ini",2,Sangat Beracun,"sangat beracun, racunnya dapat mematikan makhluk hidup termasuk manusia","[
+{
+""animal_action_id"" : 0,
+""animal_action_label"" : ""mengigit"",
+""animal_action_description"" : ""hindari gigitan hewan ini""
+},
+{
+""animal_action_id"" : 1,
+""animal_action_label"" : ""menyengat"",
+""animal_action_description"" : ""jangan sentuh atau injak hewan ini""
+}
+]","Blue-ringed octopus, yang terdiri dari genus Hapalochlaena, adalah empat spesies gurita yang sangat berbisa yang ditemukan di kolam pasang surut dan terumbu karang di Samudra Pasifik dan Hindia, dari Jepang hingga Australia. Mereka dapat dikenali dari kulitnya yang kekuning-kuningan dan ciri khas cincin biru dan hitam yang berubah warna secara dramatis ketika hewan itu terancam. Mereka memakan krustasea kecil, termasuk kepiting, kelomang, udang, dan hewan laut kecil lainnya.
+
+Mereka adalah salah satu hewan laut paling berbisa di dunia. Meskipun ukurannya kecil—12 hingga 20 cm (5 hingga 8 inci)—dan sifatnya yang relatif jinak, mereka sangat berbahaya bagi manusia jika diprovokasi karena racunnya mengandung neurotoksin tetrodotoxin yang kuat.
+",https://en.wikipedia.org/wiki/Blue-ringed_octopus,"[nhm.ac.uk, wikipedia]"
+2,Crown of Thorns Starfish,4,Bisa Sangat Berbahaya,"hewan ini pasif tapi bisa saja sangat berbahaya, dianjurkan untuk tidak terlalu dekat apalagi sampai menyentuh hewan ini",2,Sangat Beracun,"sangat beracun, racunnya dapat mematikan makhluk hidup termasuk manusia","[{
+""animal_action_id"" : 1,
+""animal_action_label"" : ""menyengat"",
+""animal_action_description"" : ""jangan sentuh atau injak hewan ini""
+}]","crown-of-thorns starfish, Acanthaster planci, adalah bintang laut besar yang memangsa polip karang keras atau berbatu (Scleractinia). crown-of-thorns starfish(Bintang laut mahkota duri) namanya diambil dari bentuk duri berbisa yang menutupi permukaan atasnya, yang menyerupai mahkota duri. Ini adalah salah satu bintang laut terbesar di dunia.
+",https://en.wikipedia.org/wiki/Crown-of-thorns_starfish,"[ncbi.nlm.nih.gov, emedicinehealth.com, wikipedia]"
