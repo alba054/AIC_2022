@@ -56,10 +56,13 @@ for production
 '''
 @app.route("/detect", methods=['POST'])
 def detect():
+  filters = None
   body = json.loads(request.data)
   base64Image = body['image']
-  filters = body['filters']
-
+  try:
+    filters = body['filters']
+  except:
+    pass
 
   return load_image_and_detect(base64Image, filters)
 
