@@ -138,7 +138,7 @@ def generate_random_image_dir(base_dir='temp_save_dir', save_image_format= 'jpg'
 
     return os.path.join(base_dir, unique_image_name)
 
-def load_image_and_detect(base64_image):
+def load_image_and_detect(base64_image, class_filter=None):
     read_base64= base64_image.encode()
     read_base64= base64.decodebytes(read_base64)
 
@@ -152,7 +152,7 @@ def load_image_and_detect(base64_image):
         
     cv2.imwrite(unique_image_dir,img)
 
-    return_json= detect(unique_image_dir)
+    return_json= detect(unique_image_dir, class_filter= class_filter)
 
     try:
         os.remove(unique_image_dir)
