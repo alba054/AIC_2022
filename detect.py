@@ -66,7 +66,7 @@ def detect(source, trace=False, weights='model_weights/best.pt', img_size=512, c
                 'detection_count': 0,
                 'object_detected': []
         }
-
+        abs_height, abs_width=  im0s.shape[0:2]
         # Process detections
         for i, det in enumerate(pred):  # detections per image
             im0= im0s
@@ -81,22 +81,24 @@ def detect(source, trace=False, weights='model_weights/best.pt', img_size=512, c
 
                 # Write results
                 temp_dict= {}
-                for xmin, ymin, w, h, conf, cls in reversed(det):
+                for xmin, ymin, xmax, ymax, conf, cls in reversed(det):
                       cls= cls.item()
-                      xmin, ymin, w, h= xmin.item(), ymin.item(), w.item(), h.item()
-                      xmax, ymax= xmin+w, ymin+h
+                      xmin, ymin, xmax, ymax= xmin.item(), ymin.item(), xmax.item(), ymax.item()
 
-                      top_left, top_right, bottom_left, bottom_right= [[xmin, ymin], [xmax, ymin], [xmin, ymax], [xmax, ymax]]
+                      xmin, xmax= xmin/abs_width, xmax/abs_width
+                      ymin, ymax= ymin/abs_height, ymax/abs_height
+                      
+                    #   top_left, top_right, bottom_left, bottom_right= [[xmin, ymin], [xmax, ymin], [xmin, ymax], [xmax, ymax]]
                       conf= conf.item()
 
                       temp_dict= {
                           'class': int(cls),
                           'confidence': conf,
                           'bounding_box':{
-                              'top_left': top_left,
-                              'top_right': top_right,
-                              'bottom_left': bottom_left,
-                              'bottom_right': bottom_right,
+                              'xmin': xmin,
+                              'xmax': xmax,
+                              'ymin': ymin,
+                              'ymax': ymax,
                           }
                       }
 
@@ -108,7 +110,6 @@ def detect(source, trace=False, weights='model_weights/best.pt', img_size=512, c
 
 
     return json.dumps(result)
-
 
 
 from string import ascii_lowercase
