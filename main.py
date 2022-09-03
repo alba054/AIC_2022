@@ -24,7 +24,7 @@ def getAnimalById(ids):
     del animal["_id"]
     response.append(animal)
 
-  return response
+  return { "results" : response }
 
 @app.route("/detect", methods=['POST'])
 def detect():
