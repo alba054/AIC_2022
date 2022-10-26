@@ -13,7 +13,7 @@ import torch.backends.cudnn as cudnn
 from numpy import random
 import json
 
-def detect(source, trace=False, weights='model_weights/best.pt', img_size=512, conf_thres=0.4, iou_thres=0.45, agnostic_nms= False, save_txt= True, save_img=False, save_conf= True, detect_path='runs/detect', detect_sub_path='detect_res', is_augment=False, class_filter=None):
+def detect(source, trace=False, weights='model_weights/best.pt', img_size=512, conf_thres=0.5, iou_thres=0.5, agnostic_nms= False, is_augment=False, class_filter=None):
     # Initialize
     set_logging()
     device = select_device('')

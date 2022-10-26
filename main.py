@@ -20,7 +20,7 @@ def getAnimalById(ids):
   try:
     for id in id_list:
         animal = animalCollection.find({"id" : id})
-        animal = list(animal)
+        animal = list(animal)[0]
         del animal["_id"]
         response.append(animal)
   except:
@@ -67,5 +67,5 @@ def detect():
   return load_image_and_detect(base64Image, filters)
 
 if __name__ == "__main__":
-  app.run("0.0.0.0", debug=True)
+  app.run("0.0.0.0", 8000, debug=True)
   

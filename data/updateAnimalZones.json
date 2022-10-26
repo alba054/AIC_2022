@@ -1,14 +1,14 @@
 [
   {
     "data" : { "id" : "0" },
-    "updated" : { "$set" : { "zones" : [0] }}
+    "updated" : { "$set" : { "zones" : [0, 1, 2, 3, 4, 5, 6, 7] }}
   },
   {
     "data" : { "id" : "1" },
-    "updated" : { "$set" : { "zones" : [0] }}
+    "updated" : { "$set" : { "zones" : [0, 1, 2, 3, 4, 5, 6, 7] }}
   },
   {
     "data" : { "id" : "2" },
-    "updated" : { "$set" : { "zones" : [0] }}
+    "updated" : { "$set" : { "zones" : [0, 1, 2, 3, 4, 5, 6, 7] }}
   }
 ]
