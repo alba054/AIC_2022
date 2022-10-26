@@ -1,3 +1,4 @@
+import uuid
 from flask import Flask, request, make_response
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -6,8 +7,10 @@ from flask_jwt_extended import JWTManager
 
 import json
 import bcrypt
+import base64
+import uuid
 
-from utils_api import get_database
+from utils_api import get_database, upload_blob
 '''
 for production
 '''
@@ -18,6 +21,8 @@ app = Flask(__name__)
 clientDB = get_database()
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
 jwt = JWTManager(app)
+
+BUCKET_NAME = "wicoversity_bucket"
 
 
 @app.route("/register", methods=["POST"])
@@ -124,6 +129,35 @@ def getLocationByID(id):
 #     pass
 
 #   return load_image_and_detect(base64Image, filters)
+
+@app.route("/upload-file", methods=["POST"])
+@jwt_required()
+def uploadImageHandler():
+  payload = json.loads(request.data)
+  img = payload["uploaded_image"]
+  title = str(uuid.uuid4())
+  filename = f"img/{title}.png"
+  
+  # try:
+  with open(filename, "wb") as imgFile:
+    img = base64.b64decode(img)
+    imgFile.write(img)
+  
+  upload_blob(BUCKET_NAME, filename, title)
+  
+  return make_response({
+    "result" : {
+      "message" : "successfully uploaded image"
+    }
+  }, 201)
+  # except:
+  #   return make_response({
+  #     "result" : {
+  #       "message" : "failed"
+  #     }
+  #   }, 500)
+  
+  # upload_blob(BUCKET_NAME, )
 
 
 if __name__ == "__main__":
