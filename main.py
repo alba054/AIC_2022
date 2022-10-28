@@ -77,8 +77,10 @@ def loginHandler():
   user = userCollection.find_one({ "email" : username})
   print(user.keys())
   if "location" in user.keys():
+    
     print(user["location"])
-    location = locationCollection.find_one({"id" : int(user["location"])})
+    #location = locationCollection.find_one({"id" : int(user["location"])})
+    location = user["location"]
   if "name" in user.keys():
       name = user["name"]
   
@@ -86,7 +88,7 @@ def loginHandler():
     # print(isPasswordCorrect)
   print(user)
   if isPasswordCorrect:
-      accessToken = create_access_token(identity={"username" : username, "role" : "user", "name":name})
+      accessToken = create_access_token(identity={"username" : username, "role" : "user", "name":name, "location" : location}, expires_delta=datetime.timedelta(days=365))
       return {"result" : {
         "access_token" : accessToken
       }}
@@ -164,7 +166,19 @@ def detect():
 
   access_token = None
   result = load_image_and_detect(base64Image, filters)
-  if auth:
+  print(type(result))
+  result = json.loads(result)
+  temp = result["object_detected"]
+  highest =  0
+  highest_obj= None
+  for i in temp:
+      if i['confidence']>highest:
+          highest= i['confidence']
+          highest_obj= i
+
+  
+  
+  if auth and result["status"] != "failed":
     access_token = auth.split(" ")[1]
     decoded = decode_token(access_token)
     historiesCollection = clientDB["histories"]
@@ -176,7 +190,7 @@ def detect():
       "detected_at" : current_time,
       "location" : decoded["sub"]["location"],
       "name" : decoded["sub"]["name"],
-      "detection_result" : result
+      "detection_result" : highest_obj
     })
 
   
@@ -193,7 +207,7 @@ def getDetectionHistory():
   histories = list(histories)
   results = []
   for hist in histories:
-      results.append({"username" : hist["username"], "image" : hist["image"], "detected_at" : hist["detected_at"], "location" : hist["location"], "name" : hist["name"], "detection_result" : json.loads(hist["detection_result"])})
+      results.append({"username" : hist["username"], "image" : hist["image"], "detected_at" : hist["detected_at"], "location" : hist["location"], "name" : hist["name"], "detection_result" : hist["detection_result"]})
   return make_response({"result":{"histories" : results}}, 200)
 
 
@@ -210,16 +224,23 @@ def getUserProfile():
   user = clientDB["users"].find_one({"email" : decoded["sub"]["username"]})
   if "location" in user.keys():
     location = user["location"]
+    location = clientDB["locations"].find_one({"id" : location})
+    if not location:
+        location = None
   if "name" in user.keys():
     name = user["name"]
   
-  return make_response({
+  try:
+    return make_response({
     "result" : {
       "username" : decoded["sub"]["username"],
-      "location" : location,
+      "location" : location["id"],
       "name" : name
     }
   })
+  except Exception as E:
+    print(E)
+    return make_response({"result" : {"username" : decoded["sub"]["username"], "location_name":None, "location_image" : None, "location_id" : None, "name" : name}}, 200)
 
 @app.route("/upload-file", methods=["POST"])
 @jwt_required()
